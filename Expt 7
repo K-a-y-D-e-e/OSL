@@ -1,0 +1,48 @@
+# 1. Algorithm for Array Operations (Average and Maximum)
+
+# Step 1: Start
+# Step 2: Prompt the user to enter the size of the array.
+# Step 3: Initialize an array of the specified size.
+# Step 4: Prompt the user to input the array elements.
+# Step 5: Initialize variables for sum and max (set max to a very small value, e.g., INT_MIN).
+# Step 6: Loop through the array:
+#         - Add each element to the sum.
+#         - Compare each element to max and update max if the element is greater.
+# Step 7: Calculate the average by dividing the sum by the number of elements.
+# Step 8: Display the average and the maximum element.
+# Step 9: End
+
+// 2. C Program for Array Operations (Average and Maximum)
+#include <stdio.h>
+#include <limits.h>  // For INT_MIN
+
+int main() {
+    int n, i;
+    float average;
+    int sum = 0, max = INT_MIN;
+
+    // Prompt user to enter the size of the array
+    printf("Enter the number of elements in the array: ");
+    scanf("%d", &n);
+
+    int arr[n];  // Declare an array of size n
+
+    // Prompt user to input array elements
+    printf("Enter %d elements:\n", n);
+    for (i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+        sum += arr[i];  // Add element to sum
+        if (arr[i] > max) {
+            max = arr[i];  // Update max if current element is greater
+        }
+    }
+
+    // Calculate average
+    average = (float)sum / n;
+
+    // Display results
+    printf("Average of array elements: %.2f\n", average);
+    printf("Maximum element in the array: %d\n", max);
+
+    return 0;
+}
