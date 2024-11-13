@@ -1,0 +1,79 @@
+# 1. `find` Command in Unix/Linux
+# The `find` command searches for files and directories within a directory hierarchy based on various attributes.
+
+# Syntax:
+find [path] [expression]
+
+# Usage Based on Attributes:
+
+# By Name:
+find /path -name "filename"
+
+# By Type (file, directory, etc.):
+find /path -type f   # For files
+find /path -type d   # For directories
+
+# By Size:
+find /path -size +10M  # Files larger than 10MB
+
+# By Time (modified, accessed, etc.):
+find /path -mtime -7  # Modified within the last 7 days
+
+# By Permissions:
+find /path -perm 644  # Files with specific permissions
+
+# 2. Data Processing and Manipulation
+# Data Processing: Collecting, organizing, and transforming raw data into meaningful information.
+# Data Manipulation: Operations to modify data, such as sorting, filtering, aggregating, or formatting.
+
+# Examples:
+# - Removing duplicates.
+# - Filtering data by specific conditions.
+# - Converting data formats.
+
+# 3. Shell Commands for Creating and Editing CSV Files
+
+# Create a blank CSV file:
+touch file.csv
+
+# Add a header row:
+echo "Name,Age,Location" > data.csv
+
+# Append a row to the CSV file:
+echo "John,25,New York" >> data.csv
+
+# View the content of the CSV file:
+cat data.csv
+
+# 4. Operations on CSV Data Using Shell Commands
+
+# 1. Display the contents of a CSV file:
+cat file.csv
+
+# 2. Count the number of lines:
+wc -l file.csv
+
+# 3. Display the first few lines:
+head -n 5 file.csv
+
+# 4. Display the last few lines:
+tail -n 5 file.csv
+
+# 5. Sort the CSV data by a column (e.g., 2nd column):
+sort -t, -k2 file.csv
+
+# 6. Filter rows containing specific text:
+grep "John" file.csv
+
+# 7. Count occurrences of a specific value in a column:
+cut -d, -f2 file.csv | grep -c "25"
+
+# 8. Replace text in the CSV file:
+sed -i 's/OldValue/NewValue/g' file.csv
+
+# 9. Extract specific columns:
+cut -d, -f1,3 file.csv
+
+# 10. Remove duplicate rows:
+sort file.csv | uniq
+
