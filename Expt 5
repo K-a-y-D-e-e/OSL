@@ -1,0 +1,72 @@
+# 1. Shell Commands for File Operations
+
+# | **Operation**  | **Command**                  | **Description**                          |
+# |----------------|------------------------------|------------------------------------------|
+# | Copying Files  | `cp source destination`      | Copies a file to the specified location. |
+# | Moving Files   | `mv source destination`      | Moves a file to the specified location.  |
+# | Renaming Files | `mv oldname newname`         | Renames a file.                          |
+# | Deleting Files | `rm filename`                | Deletes a file.                          |
+# | Copy Directory | `cp -r source_dir dest_dir`  | Copies a directory and its contents.     |
+# | Delete Directory | `rm -r dirname`           | Deletes a directory and its contents.    |
+
+# 2. Algorithm for Automating File Operations
+
+# Step 1: Start
+# Step 2: Display a menu for file operations:
+#         1. Copy File
+#         2. Move File
+#         3. Rename File
+#         4. Delete File
+# Step 3: Take user input for the operation choice.
+# Step 4: Based on the choice:
+#         - If Copy, prompt for source and destination paths and execute the copy command.
+#         - If Move, prompt for source and destination paths and execute the move command.
+#         - If Rename, prompt for old and new file names and execute the rename command.
+#         - If Delete, prompt for file name and execute the delete command.
+# Step 5: Display success message.
+# Step 6: End
+
+# 3. Shell Program for Automating File Operations
+
+echo "Select an operation:"
+echo "1. Copy File"
+echo "2. Move File"
+echo "3. Rename File"
+echo "4. Delete File"
+read choice
+
+case $choice in
+  1)
+    echo "Enter the source file path:"
+    read source
+    echo "Enter the destination path:"
+    read destination
+    cp "$source" "$destination"
+    echo "File copied successfully."
+    ;;
+  2)
+    echo "Enter the source file path:"
+    read source
+    echo "Enter the destination path:"
+    read destination
+    mv "$source" "$destination"
+    echo "File moved successfully."
+    ;;
+  3)
+    echo "Enter the current file name (with path if not in current directory):"
+    read oldname
+    echo "Enter the new file name (with path if necessary):"
+    read newname
+    mv "$oldname" "$newname"
+    echo "File renamed successfully."
+    ;;
+  4)
+    echo "Enter the file name to delete (with path if not in current directory):"
+    read filename
+    rm "$filename"
+    echo "File deleted successfully."
+    ;;
+  *)
+    echo "Invalid choice. Please select a valid operation."
+    ;;
+esac
