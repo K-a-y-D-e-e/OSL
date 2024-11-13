@@ -1,0 +1,84 @@
+# Algorithm for Round Robin CPU Scheduling
+
+# Step 1: Start
+# Step 2: Input the number of processes (n) and the time quantum (q).
+# Step 3: For each process, input the process ID, arrival time, and burst time.
+# Step 4: Initialize an array to store remaining burst times for each process.
+# Step 5: Initialize `current_time` to 0 and a queue to hold the processes.
+# Step 6: Add all processes that have arrived by `current_time` to the queue.
+# Step 7: While the queue is not empty:
+#         a. Dequeue the first process from the queue.
+#         b. If the remaining burst time is greater than the time quantum:
+#             - Execute the process for the time quantum.
+#             - Update `current_time`.
+#             - Subtract the time quantum from the remaining burst time.
+#             - Add the process back to the queue if it still has burst time left.
+#         c. If the remaining burst time is less than or equal to the time quantum:
+#             - Execute the process for the remaining burst time.
+#             - Update `current_time`.
+#             - Set the process's completion time.
+#             - Calculate turnaround time and waiting time.
+#         d. Add newly arrived processes to the queue.
+# Step 8: Display the process table with process ID, arrival time, burst time, completion time, turnaround time, and waiting time.
+# Step 9: Calculate and display the average turnaround time and average waiting time.
+# Step 10: End
+
+#include <stdio.h>
+#include <stdbool.h>
+
+typedef struct {
+    int pid;            // Process ID
+    int arrival_time;   // Arrival time of the process
+    int burst_time;     // Burst time of the process
+    int completion_time;
+    int turnaround_time;
+    int waiting_time;
+    int remaining_time; // Remaining burst time
+} Process;
+
+void calculateTimes(Process p[], int n, int time_quantum) {
+    int current_time = 0, completed = 0;
+    bool in_queue[n];
+    for (int i = 0; i < n; i++) {
+        in_queue[i] = false;
+        p[i].remaining_time = p[i].burst_time;
+    }
+
+    while (completed < n) {
+        bool all_waiting = true;
+        for (int i = 0; i < n; i++) {
+            if (p[i].arrival_time <= current_time && p[i].remaining_time > 0) {
+                all_waiting = false;
+                if (!in_queue[i]) {
+                    in_queue[i] = true;
+                }
+
+                if (p[i].remaining_time > time_quantum) {
+                    current_time += time_quantum;
+                    p[i].remaining_time -= time_quantum;
+                } else {
+                    current_time += p[i].remaining_time;
+                    p[i].remaining_time = 0;
+                    p[i].completion_time = current_time;
+                    p[i].turnaround_time = p[i].completion_time - p[i].arrival_time;
+                    p[i].waiting_time = p[i].turnaround_time - p[i].burst_time;
+                    completed++;
+                }
+            }
+        }
+
+        if (all_waiting) {
+            current_time++;
+        }
+    }
+}
+
+void displayProcesses(Process p[], int n) {
+    float total_turnaround_time = 0, total_waiting_time = 0;
+
+    printf("\nPID\tArrival\tBurst\tCompletion\tTurnaround\tWaiting\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d\t%d\t%d\t%d\t\t%d\t\t%d\n", 
+               p[i].pid, p[i].arrival_time, p[i].burst_time,
+               p[i].completion_time, p[i].turnaround_time, p[i].waiting_time);
+        total_turnaround_time += p[
