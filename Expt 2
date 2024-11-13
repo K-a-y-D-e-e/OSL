@@ -1,0 +1,46 @@
+# 1. Shell Commands to Create Directory, File, and Add Content
+
+# Create a directory with your name:
+mkdir your_name
+
+# Go inside the created directory:
+cd your_name
+
+# Create an empty file named fruits.txt:
+touch fruits.txt
+
+# Add 7 fruits to fruits.txt (one fruit per line):
+echo -e "Apple\nBanana\nCherry\nDate\nElderberry\nFig\nGrapes" > fruits.txt
+
+# 2. List of Tasks Performed on fruits.txt with Commands
+
+# Display the contents of fruits.txt:
+cat fruits.txt
+
+# Count the number of lines (fruits) in the file:
+wc -l fruits.txt
+
+# Sort the fruits alphabetically:
+sort fruits.txt
+
+# Display only the first 3 fruits:
+head -n 3 fruits.txt
+
+# Display the last 2 fruits:
+tail -n 2 fruits.txt
+
+# Search for a specific fruit (e.g., Banana):
+grep "Banana" fruits.txt
+
+# Append a new fruit to the file:
+echo "Honeydew" >> fruits.txt
+
+# Replace a fruit (e.g., Replace 'Date' with 'Dragonfruit'):
+sed -i 's/Date/Dragonfruit/' fruits.txt
+
+# Remove duplicate entries (if any):
+sort fruits.txt | uniq > temp.txt && mv temp.txt fruits.txt
+
+# Delete a specific fruit (e.g., Cherry):
+sed -i '/Cherry/d' fruits.txt
+
