@@ -1,0 +1,67 @@
+# 1. Definition of Shell Scripting
+# Shell scripting is a program written for the shell, or command line interpreter, of an operating system.
+# It automates tasks by executing a sequence of commands in a script file.
+
+# Arithmetic Operations and Their Shell Script Representation
+
+# | **Operation**   | **Symbol** | **Shell Script Representation**      |
+# |-----------------|------------|--------------------------------------|
+# | Addition        | +          | result=$((num1 + num2))             |
+# | Subtraction     | -          | result=$((num1 - num2))             |
+# | Multiplication  | *          | result=$((num1 * num2))             |
+# | Division        | /          | result=$((num1 / num2))             |
+# | Modulus         | %          | result=$((num1 % num2))             |
+# | Exponentiation  | **         | result=$((num1 ** num2)) (bash 4.0+) |
+
+# 2. Algorithm to Perform Basic Arithmetic Operations
+
+# Step 1: Start
+# Step 2: Prompt the user to enter two numbers (num1, num2).
+# Step 3: Display options for the operations (Addition, Subtraction, Multiplication, Division).
+# Step 4: Take user input for the operation choice.
+# Step 5: Perform the selected operation using the input numbers.
+# Step 6: Display the result.
+# Step 7: End
+
+# 3. Shell Program for Basic Arithmetic Operations
+
+# Prompt the user for input
+echo "Enter the first number:"
+read num1
+
+echo "Enter the second number:"
+read num2
+
+echo "Select an operation:"
+echo "1. Addition"
+echo "2. Subtraction"
+echo "3. Multiplication"
+echo "4. Division"
+read choice
+
+# Perform the operation based on user choice
+case $choice in
+  1)
+    result=$((num1 + num2))
+    echo "Result of Addition: $result"
+    ;;
+  2)
+    result=$((num1 - num2))
+    echo "Result of Subtraction: $result"
+    ;;
+  3)
+    result=$((num1 * num2))
+    echo "Result of Multiplication: $result"
+    ;;
+  4)
+    if [ $num2 -ne 0 ]; then
+      result=$((num1 / num2))
+      echo "Result of Division: $result"
+    else
+      echo "Error: Division by zero is not allowed."
+    fi
+    ;;
+  *)
+    echo "Invalid choice. Please select a valid option."
+    ;;
+esac
