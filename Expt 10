@@ -1,0 +1,168 @@
+# Algorithm for Page Replacement Algorithms
+
+## 1. FIFO (First-In-First-Out) Algorithm
+# Step 1: Start
+# Step 2: Input the number of frames and reference string.
+# Step 3: Initialize an empty queue to represent the frames.
+# Step 4: For each page in the reference string:
+#         a. If the page is already in the queue, it's a hit.
+#         b. If the page is not in the queue:
+#            - If the queue is full, remove the oldest page (front of the queue).
+#            - Add the new page to the queue.
+# Step 5: Count page faults and hits.
+# Step 6: End
+
+## 2. LRU (Least Recently Used) Algorithm
+# Step 1: Start
+# Step 2: Input the number of frames and reference string.
+# Step 3: Initialize an empty list to represent the frames.
+# Step 4: For each page in the reference string:
+#         a. If the page is in the list, it's a hit and move it to the most recent position.
+#         b. If the page is not in the list:
+#            - If the list is full, remove the least recently used page (front of the list).
+#            - Add the new page to the most recent position.
+# Step 5: Count page faults and hits.
+# Step 6: End
+
+## 3. Optimal Algorithm
+# Step 1: Start
+# Step 2: Input the number of frames and reference string.
+# Step 3: Initialize an empty list to represent the frames.
+# Step 4: For each page in the reference string:
+#         a. If the page is in the list, it's a hit.
+#         b. If the page is not in the list:
+#            - If the list is full, find the page that will not be used for the longest period of time in the future.
+#            - Replace that page with the new one.
+# Step 5: Count page faults and hits.
+# Step 6: End
+
+#include <stdio.h>
+#include <stdbool.h>
+#include <limits.h>
+
+// Function for FIFO
+void fifo(int pages[], int n, int frames) {
+    int frame[frames], count = 0, page_faults = 0;
+
+    for (int i = 0; i < frames; i++) {
+        frame[i] = -1; // Initialize empty frames
+    }
+
+    for (int i = 0; i < n; i++) {
+        bool found = false;
+
+        // Check if the page is already in frame
+        for (int j = 0; j < frames; j++) {
+            if (frame[j] == pages[i]) {
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            frame[count % frames] = pages[i];
+            count++;
+            page_faults++;
+        }
+    }
+
+    printf("FIFO Page Faults: %d\n", page_faults);
+}
+
+// Function for LRU
+void lru(int pages[], int n, int frames) {
+    int frame[frames], page_faults = 0;
+    int time[frames];
+
+    for (int i = 0; i < frames; i++) {
+        frame[i] = -1; // Initialize empty frames
+        time[i] = -1;  // Track last use
+    }
+
+    for (int i = 0; i < n; i++) {
+        bool found = false;
+
+        // Check if the page is already in frame
+        for (int j = 0; j < frames; j++) {
+            if (frame[j] == pages[i]) {
+                time[j] = i;
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            int min = INT_MAX, lru_index = -1;
+            for (int j = 0; j < frames; j++) {
+                if (time[j] < min) {
+                    min = time[j];
+                    lru_index = j;
+                }
+            }
+
+            frame[lru_index] = pages[i];
+            time[lru_index] = i;
+            page_faults++;
+        }
+    }
+
+    printf("LRU Page Faults: %d\n", page_faults);
+}
+
+// Function for Optimal
+void optimal(int pages[], int n, int frames) {
+    int frame[frames], page_faults = 0;
+
+    for (int i = 0; i < frames; i++) {
+        frame[i] = -1; // Initialize empty frames
+    }
+
+    for (int i = 0; i < n; i++) {
+        bool found = false;
+
+        // Check if the page is already in frame
+        for (int j = 0; j < frames; j++) {
+            if (frame[j] == pages[i]) {
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            if (i >= frames) {
+                int farthest = i, replace_index = -1;
+                for (int j = 0; j < frames; j++) {
+                    int next_use = n;
+                    for (int k = i + 1; k < n; k++) {
+                        if (frame[j] == pages[k]) {
+                            next_use = k;
+                            break;
+                        }
+                    }
+                    if (next_use > farthest) {
+                        farthest = next_use;
+                        replace_index = j;
+                    }
+                }
+                frame[replace_index] = pages[i];
+            } else {
+                frame[i] = pages[i];
+            }
+            page_faults++;
+        }
+    }
+
+    printf("Optimal Page Faults: %d\n", page_faults);
+}
+
+int main() {
+    int pages[] = {7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 3, 0, 3};
+    int n = sizeof(pages) / sizeof(pages[0]);
+    int frames = 3;
+
+    fifo(pages, n, frames);
+    lru(pages, n, frames);
+    optimal(pages, n, frames);
+
+    return 0;
+}
