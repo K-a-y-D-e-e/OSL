@@ -1,0 +1,176 @@
+# Algorithm for FCFS (First-Come, First-Served) CPU Scheduling
+
+# Step 1: Start
+# Step 2: Input the number of processes (n).
+# Step 3: For each process, input the process ID, arrival time, and burst time.
+# Step 4: Sort the processes by their arrival time (if arrival times are the same, maintain the input order).
+# Step 5: Initialize a variable `current_time` to 0.
+# Step 6: For each process in the sorted list:
+#         a. If the process arrives after the `current_time`, update `current_time` to the process's arrival time.
+#         b. Calculate the start time of the process as `current_time`.
+#         c. Calculate the completion time as `start time + burst time`.
+#         d. Calculate the turnaround time as `completion time - arrival time`.
+#         e. Calculate the waiting time as `turnaround time - burst time`.
+#         f. Update `current_time` to the completion time of the current process.
+# Step 7: Display the process table with process ID, arrival time, burst time, completion time, turnaround time, and waiting time.
+# Step 8: Calculate and display the average turnaround time and average waiting time.
+# Step 9: End
+#include <stdio.h>
+
+typedef struct {
+    int pid;            // Process ID
+    int arrival_time;   // Arrival time of the process
+    int burst_time;     // Burst time of the process
+    int completion_time;
+    int turnaround_time;
+    int waiting_time;
+} Process;
+
+void calculateTimes(Process p[], int n) {
+    int current_time = 0;
+    for (int i = 0; i < n; i++) {
+        if (current_time < p[i].arrival_time) {
+            current_time = p[i].arrival_time;  // CPU is idle until this process arrives
+        }
+        p[i].completion_time = current_time + p[i].burst_time;
+        p[i].turnaround_time = p[i].completion_time - p[i].arrival_time;
+        p[i].waiting_time = p[i].turnaround_time - p[i].burst_time;
+        current_time = p[i].completion_time;
+    }
+}
+
+void displayProcesses(Process p[], int n) {
+    float total_turnaround_time = 0, total_waiting_time = 0;
+    printf("\nPID\tArrival\tBurst\tCompletion\tTurnaround\tWaiting\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d\t%d\t%d\t%d\t\t%d\t\t%d\n", 
+               p[i].pid, p[i].arrival_time, p[i].burst_time,
+               p[i].completion_time, p[i].turnaround_time, p[i].waiting_time);
+        total_turnaround_time += p[i].turnaround_time;
+        total_waiting_time += p[i].waiting_time;
+    }
+    printf("\nAverage Turnaround Time: %.2f", total_turnaround_time / n);
+    printf("\nAverage Waiting Time: %.2f\n", total_waiting_time / n);
+}
+
+int main() {
+    int n;
+    printf("Enter the number of processes: ");
+    scanf("%d", &n);
+
+    Process p[n];
+    printf("Enter Arrival Time and Burst Time for each process:\n");
+    for (int i = 0; i < n; i++) {
+        p[i].pid = i + 1;  // Process ID
+        printf("Process %d:\n", p[i].pid);
+        printf("Arrival Time: ");
+        scanf("%d", &p[i].arrival_time);
+        printf("Burst Time: ");
+        scanf("%d", &p[i].burst_time);
+    }
+
+    // Sort processes by arrival time
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (p[j].arrival_time > p[j + 1].arrival_time) {
+                Process temp = p[j];
+                p[j] = p[j + 1];
+                p[j + 1] = temp;
+            }
+        }
+    }
+
+    // Calculate times
+    calculateTimes(p, n);
+
+    // Display process details
+    displayProcesses(p, n);
+
+    return 0;
+}
+
+# Algorithm for SJF (Shortest Job First) CPU Scheduling
+
+# Step 1: Start
+# Step 2: Input the number of processes (n).
+# Step 3: For each process, input the process ID, arrival time, and burst time.
+# Step 4: Initialize a variable `current_time` to 0.
+# Step 5: While there are unfinished processes:
+#         a. From the list of processes that have arrived (arrival_time <= current_time), 
+#            select the one with the smallest burst time.
+#         b. If no process has arrived, increment `current_time` to the next process arrival.
+#         c. Schedule the selected process:
+#            - Set start time to `current_time`.
+#            - Calculate completion time as `current_time + burst time`.
+#            - Calculate turnaround time as `completion time - arrival time`.
+#            - Calculate waiting time as `turnaround time - burst time`.
+#            - Update `current_time` to the completion time of the current process.
+# Step 6: Display the process table with process ID, arrival time, burst time, completion time, turnaround time, and waiting time.
+# Step 7: Calculate and display the average turnaround time and average waiting time.
+# Step 8: End
+
+#include <stdio.h>
+#include <limits.h>
+
+typedef struct {
+    int pid;            // Process ID
+    int arrival_time;   // Arrival time of the process
+    int burst_time;     // Burst time of the process
+    int completion_time;
+    int turnaround_time;
+    int waiting_time;
+    int is_completed;   // Flag to check if the process is completed
+} Process;
+
+void calculateTimes(Process p[], int n) {
+    int current_time = 0, completed = 0;
+
+    while (completed < n) {
+        int shortest_job_index = -1;
+        int min_burst_time = INT_MAX;
+
+        for (int i = 0; i < n; i++) {
+            if (p[i].arrival_time <= current_time && !p[i].is_completed && p[i].burst_time < min_burst_time) {
+                shortest_job_index = i;
+                min_burst_time = p[i].burst_time;
+            }
+        }
+
+        if (shortest_job_index == -1) {
+            current_time++;
+        } else {
+            p[shortest_job_index].completion_time = current_time + p[shortest_job_index].burst_time;
+            p[shortest_job_index].turnaround_time = p[shortest_job_index].completion_time - p[shortest_job_index].arrival_time;
+            p[shortest_job_index].waiting_time = p[shortest_job_index].turnaround_time - p[shortest_job_index].burst_time;
+            p[shortest_job_index].is_completed = 1;
+
+            current_time = p[shortest_job_index].completion_time;
+            completed++;
+        }
+    }
+}
+
+void displayProcesses(Process p[], int n) {
+    float total_turnaround_time = 0, total_waiting_time = 0;
+
+    printf("\nPID\tArrival\tBurst\tCompletion\tTurnaround\tWaiting\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d\t%d\t%d\t%d\t\t%d\t\t%d\n", 
+               p[i].pid, p[i].arrival_time, p[i].burst_time,
+               p[i].completion_time, p[i].turnaround_time, p[i].waiting_time);
+        total_turnaround_time += p[i].turnaround_time;
+        total_waiting_time += p[i].waiting_time;
+    }
+    printf("\nAverage Turnaround Time: %.2f", total_turnaround_time / n);
+    printf("\nAverage Waiting Time: %.2f\n", total_waiting_time / n);
+}
+
+int main() {
+    int n;
+
+    printf("Enter the number of processes: ");
+    scanf("%d", &n);
+
+    Process p[n];
+    printf("Enter Arrival Time and Burst Time for each process:\n");
+    for (int i = 0; i < n; i
