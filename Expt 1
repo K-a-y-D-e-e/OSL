@@ -1,0 +1,67 @@
+1. Operating System (OS) Overview
+
+An Operating System (OS) is system software that manages hardware, software resources, and provides common services for computer programs.
+
+Functions of OS:
+
+    Process Management: Manages processes in a system (creation, scheduling, termination).
+    Memory Management: Allocates/deallocates memory and ensures efficient memory use.
+    File System Management: Manages data storage, retrieval, and organization of files.
+    Device Management: Controls peripheral devices using device drivers.
+    Security and Access Control: Protects data and system resources from unauthorized access.
+    User Interface: Provides a command-line interface (CLI) or graphical user interface (GUI).
+
+Diagram of OS Architecture:
+
+  -----------------------------
+ |        User Applications    |
+  -----------------------------
+ |        System Call API      |
+  -----------------------------
+ |  File Management  | Memory  |   
+ |  Process Manager   |        |
+  -----------------------------
+ |   Device Drivers & I/O      |
+  -----------------------------
+ |        Hardware Layer       |
+  -----------------------------
+
+2. Benefits of Linux-based OS vs. Windows-based OS
+
+    Cost: Linux is free; Windows requires a license.
+    Open Source: Linux allows modifications; Windows is proprietary.
+    Security: Linux is less prone to malware.
+    Customization: Linux provides more flexibility for users.
+    Performance: Linux is lightweight and efficient, especially for servers.
+    Package Management: Linux uses package managers for software installation and updates.
+
+3. File and Directory Navigation Commands
+Command	Function
+pwd	Displays current directory path.
+ls	Lists files in a directory.
+cd	Changes the current directory.
+tree	Shows directory structure.
+find	Searches for files or directories.
+4. File and Directory Management Commands
+Command	Function
+touch	Creates an empty file.
+cp	Copies files or directories.
+mv	Moves or renames files or directories.
+rm	Deletes files or directories.
+mkdir	Creates a new directory.
+rmdir	Deletes an empty directory.
+chmod	Changes file or directory permissions.
+chown	Changes file or directory ownership.
+5. Linux File Structure
+
+    / (Root): The base of the file system hierarchy.
+    /bin: Essential command binaries.
+    /boot: Files for booting the system.
+    /dev: Device files.
+    /etc: System configuration files.
+    /home: User home directories.
+    /lib: Shared libraries and kernel modules.
+    /opt: Optional software packages.
+    /tmp: Temporary files.
+    /usr: User utilities and applications.
+    /var: Variable files (e.g., logs, caches).
