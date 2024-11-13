@@ -1,0 +1,92 @@
+# 1. Algorithm for Rock-Paper-Scissors Game
+
+# Step 1: Start
+# Step 2: Display game rules (Rock beats Scissors, Scissors beat Paper, Paper beats Rock).
+# Step 3: Prompt the user to select their choice (Rock, Paper, or Scissors).
+# Step 4: Generate a random choice for the computer.
+# Step 5: Compare the user’s choice and the computer’s choice:
+#         - If user choice == computer choice, it’s a tie.
+#         - If user choice beats computer choice, user wins.
+#         - Otherwise, computer wins.
+# Step 6: Display the result (Winner or Tie).
+# Step 7: Ask if the user wants to play again.
+# Step 8: Repeat the game if the user chooses to continue.
+# Step 9: End
+
+# 2. Shell Program for Rock-Paper-Scissors Game
+
+# Function to display the game menu
+display_menu() {
+  echo "Select your choice:"
+  echo "1. Rock"
+  echo "2. Paper"
+  echo "3. Scissors"
+}
+
+# Function to get computer's random choice
+get_computer_choice() {
+  # Generate a random number between 1 and 3
+  comp_choice=$(( RANDOM % 3 + 1 ))
+}
+
+# Main game loop
+while true; do
+  # Display menu and get user choice
+  display_menu
+  read user_choice
+  
+  # Get computer choice
+  get_computer_choice
+  
+  # Determine the result
+  case $user_choice in
+    1) 
+      user="Rock"
+      ;;
+    2) 
+      user="Paper"
+      ;;
+    3) 
+      user="Scissors"
+      ;;
+    *) 
+      echo "Invalid choice, please select 1, 2, or 3."
+      continue
+      ;;
+  esac
+
+  case $comp_choice in
+    1) 
+      comp="Rock"
+      ;;
+    2) 
+      comp="Paper"
+      ;;
+    3) 
+      comp="Scissors"
+      ;;
+  esac
+
+  echo "You chose: $user"
+  echo "Computer chose: $comp"
+
+  # Determine winner
+  if [ "$user" = "$comp" ]; then
+    echo "It's a Tie!"
+  elif { [ "$user" = "Rock" ] && [ "$comp" = "Scissors" ]; } ||
+       { [ "$user" = "Paper" ] && [ "$comp" = "Rock" ]; } ||
+       { [ "$user" = "Scissors" ] && [ "$comp" = "Paper" ]; }; then
+    echo "You Win!"
+  else
+    echo "Computer Wins!"
+  fi
+
+  # Ask if the user wants to play again
+  echo "Do you want to play again? (yes/no)"
+  read play_again
+  if [ "$play_again" != "yes" ]; then
+    break
+  fi
+done
+
+echo "Thanks for playing!"
